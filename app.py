@@ -4,6 +4,9 @@ from PIL import Image
 import io
 import os
 
+# 🔽 環境変数から PORT を取得（Render 仕様に従う）
+port = int(os.environ.get("PORT", 10000))
+
 # 🔽 追加：初回実行時にモデルをダウンロード
 os.system("rembg i")
 
@@ -29,7 +32,6 @@ def remove_bg():
     except Exception as e:
         return {"error": str(e)}, 500
 
-# 🔽 ここがRender.comに必要な "追加すべき部分" 🔽
+# 🔽 Render に必要なポート設定（環境変数を参照）
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 10000))  # RenderのPORT設定を明示
-    app.run(host="0.0.0.0", port=port)         # 全てのリクエストを受け付ける
+    app.run(host="0.0.0.0", port=port)  # ここを環境変数の `PORT` に合わせる
