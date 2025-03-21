@@ -2,6 +2,10 @@ from flask import Flask, request, send_file
 from rembg import remove
 from PIL import Image
 import io
+import os  # 🔽 追加：モデルを事前ダウンロードするため
+
+# 🔽 追加：初回実行時にモデルをダウンロード
+os.system("rembg i")
 
 app = Flask(__name__)
 
@@ -27,6 +31,5 @@ def remove_bg():
 
 # 🔽 ここがRender.comに必要な "追加すべき部分" 🔽
 if __name__ == "__main__":
-    import os
     port = int(os.environ.get("PORT", 5000))  # Renderが動的に割り当てるポート
     app.run(host="0.0.0.0", port=port)        # 全てのリクエストを受け付ける
