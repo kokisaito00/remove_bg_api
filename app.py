@@ -4,10 +4,10 @@ from PIL import Image
 import io
 import os
 
-# 🔽 環境変数から PORT を取得（Render 仕様に従う）
+# 🔽 Render 環境変数から PORT を取得（デフォルト: 10000）
 port = int(os.environ.get("PORT", 10000))
 
-# 🔽 追加：初回実行時にモデルをダウンロード
+# 🔽 モデルを事前ダウンロード（初回起動対策）
 os.system("rembg i")
 
 app = Flask(__name__)
@@ -32,6 +32,6 @@ def remove_bg():
     except Exception as e:
         return {"error": str(e)}, 500
 
-# 🔽 Render に必要なポート設定（環境変数を参照）
+# 🔽 Render.comの仕様に合わせて起動（0.0.0.0で全リクエスト受信）
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=port)  # ここを環境変数の `PORT` に合わせる
+    app.run(host="0.0.0.0", port=port)
